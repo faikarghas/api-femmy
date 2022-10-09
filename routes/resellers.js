@@ -14,13 +14,13 @@ resellers.use((req, res, next) => {
 
 // register resellers
 resellers.post('/', async(req, res) => {
-    if (req.body.fullname != null && req.body.fullname != "" && req.body.consultantname != null && req.body.consultantname != "" && isEmailValid(req.body.email) && isPhoneValid(req.body.whatsappno)){
+    if (req.body.fullName != null && req.body.fullName != "" && req.body.consultantName != null && req.body.consultantName != "" && isEmailValid(req.body.email) && isPhoneValid(req.body.whatsAppNo)){
         let newReseller = {
-            fullname: req.body.fullname,
-            consultantname: req.body.consultantname,
+            fullName: req.body.fullName,
+            consultantName: req.body.consultantName,
             occupation: req.body.occupation,
             address: req.body.address,
-            whatsappno: req.body.whatsappno,
+            whatsAppNo: req.body.whatsAppNo,
             email: req.body.email,
             instagram: req.body.instagram,
             tiktok: req.body.tiktok,
