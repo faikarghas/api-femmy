@@ -1,3 +1,5 @@
+const { Table } = require('../models/db')
+
 function SetZero(num) {
     if(num < 10) {
         return '0'+num;
@@ -52,4 +54,23 @@ function log(type, str) {
     }
 }
 
-module.exports = { log }
+function httpLog(req, res){
+    const logRes = `INCOMING REQUEST FROM ${req.ip} || ${req.method} ${req.originalUrl} || ${res.status}`
+    Table.Logs.create({ 
+        log: logRes, 
+        origin: req.ip, 
+        endpoint: `${req.method} ${req.originalUrl}`, 
+        code: `${res.status}`,
+        request: JSON.stringify(req.body), 
+        response: JSON.stringify(res)
+    }).then((ok) => {
+        console.log(ok)
+        return logRes
+    }).catch((err) => {
+        console.log(err)
+        return logRes
+    })
+    return logRes
+}
+
+module.exports = { log, httpLog }
