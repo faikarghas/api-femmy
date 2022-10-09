@@ -14,13 +14,14 @@ questions.use((req, res, next) => {
 
 // add questions
 questions.post('/', async(req, res) => {
-    if (req.body.fullName != null && req.body.fullName != "" && req.body.question != null && req.body.question != "" && isEmailValid(req.body.email) && isPhoneValid(req.body.phone)){
+    if (req.body.fullname != null && req.body.fullname != "" && req.body.question != null && req.body.question != "" && isEmailValid(req.body.email) && isPhoneValid(req.body.phone)){
         let newQuestion = {
-            fullName: req.body.fullName,
+            fullname: req.body.fullname,
             phone: req.body.phone,
             email: req.body.email,
             question: req.body.question,
         }
+
         // insert question
         Table.Questions.create(newQuestion)
         .then(() => {

@@ -12,6 +12,10 @@ const seq = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
         acquire: 30000,
         idle: 10000
     },
+    define:{
+        "createdAt": "createdat",
+        "updatedAt": "updatedat"
+    }
 })
 
 const Table = {
