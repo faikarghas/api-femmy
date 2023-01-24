@@ -2,13 +2,16 @@
 const express = require('express')
 const cors = require('cors')
 const fs = require('fs')
-const { log } = require('./utils/logger')
+const { log, httpLog } = require('./utils/logger')
 const { httpRes } = require('./utils/responder')
 const dotenv = require('dotenv')
 dotenv.config()
 
 // routes source
 const app = express()
+const resellers = require('./routes/resellers')
+const questions = require('./routes/questions')
+const auth = require('./routes/auth')
 
 // middlewares
 app.use(express.json())
@@ -31,10 +34,14 @@ app.get('/', (req, res) => {
         version: package.version,
         description: package.description, 
     })
+    log('ok', httpLog(req, resp))
     res.status(200).json(resp)
-    log('ok', req)
-    // log('ok', httpLog(req, resp))
 })
+
+// routes endpoint
+app.use('/reseller', resellers)
+app.use('/question', questions)
+app.use('/auth', auth)
 
 // error handler
 app.use((req, res, next) => {
