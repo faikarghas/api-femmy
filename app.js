@@ -11,6 +11,7 @@ dotenv.config()
 const app = express()
 const resellers = require('./routes/resellers')
 const questions = require('./routes/questions')
+const auth = require('./routes/auth')
 
 // middlewares
 app.use(express.json())
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
 // routes endpoint
 app.use('/reseller', resellers)
 app.use('/question', questions)
+app.use('/auth', auth)
 
 // error handler
 app.use((req, res, next) => {

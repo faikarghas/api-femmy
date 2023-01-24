@@ -12,16 +12,13 @@ const seq = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
         acquire: 30000,
         idle: 10000
     },
-    define:{
-        "createdAt": "createdat",
-        "updatedAt": "updatedat"
-    }
 })
 
 const Table = {
     Logs: seq.define('logs', Attr.LogAttr),
     Resellers: seq.define('resellers', Attr.ResellerAttr),
     Questions: seq.define('questions', Attr.QuestionAttr),
+    Users: seq.define('users', Attr.UserAttr),
 }
 
 module.exports = {
