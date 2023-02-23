@@ -1,6 +1,7 @@
 const { JWT_KEY, JWT_ALGO, JWT_ISSUER, HMAC_ALGO, HMAC_KEY } = require('../config/config')
 const jwt = require('jsonwebtoken')
 const hash = require('crypto')
+const { seq, Table } = require('../models/db')
 
 // generate jwt
 let GenerateJwt = (data,expire) => {
@@ -46,8 +47,8 @@ let GenerateHmac = (password) => {
 }
 
 let buildToken = (user) => {
-    const accessPayload = {userId: user.id}
-    const refreshPayload = {userId: user.id}
+    const accessPayload = {userId: user.id,role:user.role}
+    const refreshPayload = {userId: user.id,role:user.role}
 
     const accessToken = GenerateJwt(accessPayload,5*60) // 5 menit
     const refreshToken = GenerateJwt(refreshPayload,7*24*60*60) // 7 hari
@@ -56,7 +57,24 @@ let buildToken = (user) => {
 }
 
 let verifyRefreshToken = (token) => {
-    return jwt.verify(token, JWT_KEY)
+
+    return new Promise((resolve, reject) => {
+        Table.Users.findOne({ refreshToken: token }, (err, doc) => {
+            console.log(doc);
+            if (!doc)
+                return reject({ error: true, message: "Invalid refresh token" });
+
+            jwt.verify(refreshToken, JWT_KEY, (err, tokenDetails) => {
+                if (err)
+                    return reject({ error: true, message: "Invalid refresh token" });
+                resolve({
+                    tokenDetails,
+                    error: false,
+                    message: "Valid refresh token",
+                });
+            });
+        });
+    });
 }
 
 module.exports = { GenerateJwt, VerifyJwt, GenerateHmac, buildToken, verifyRefreshToken }

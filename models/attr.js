@@ -40,8 +40,9 @@ const Attr = {
 
     UserAttr: {
         id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+        fullName:{type: DataTypes.STRING},
         username:{type: DataTypes.STRING},
-        email:{type: DataTypes.STRING},
+        email:{type: DataTypes.STRING, allowNull: true},
         role:{type: DataTypes.INTEGER},
         password:{type: DataTypes.STRING},
         phoneNumber:{type: DataTypes.STRING},
@@ -53,6 +54,7 @@ const Attr = {
         tiktok:{type: DataTypes.STRING},
         createdAt:{type: DataTypes.DATE},
         updatedAt:{type: DataTypes.DATE},
+        refreshToken:{type: DataTypes.STRING}
     },
 
 }
